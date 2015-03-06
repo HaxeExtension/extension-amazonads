@@ -1,0 +1,11 @@
+{
+	"name": "amazonads-openfl",
+	"url": "http://inside.pozirk.com/",
+	"license": "MIT",
+	"tags": ["openfl", "amazon", "ads"],
+	"description": "AmazonAds extension for OpenFL",
+	"version": "0.0.1",
+	"releasenote": "First!",
+	"contributors": ["pozirk"],
+	"dependencies": {"openfl": ""}
+}

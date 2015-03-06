@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project>
+	<dependency name="amazonads" path="dependencies/amazonads" if="android" />
+	<android extension="com.pozirk.ads.AmazonAds" />
+</project>
