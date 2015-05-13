@@ -36,6 +36,8 @@ class AmazonAdsEvent extends Event
 	public static inline var AD_COLLAPSED:String = "AD_COLLAPSED"; //user closed rich media ad
 	public static inline var AD_FAILED_TO_LOAD:String = "AD_FAILED_TO_LOAD"; //shit happens
 	public static inline var AD_DISMISSED:String = "AD_DISMISSED"; //most likely interstitial was closed by user
+	public static inline var INTERSTITIAL_CACHE_FAIL:String = "INTERSTITIAL_CACHE_FAIL";
+	public static inline var AD_SHOW_FAIL:String = "AD_SHOW_FAIL";
 	
 	public var _data:String; //extra info about event
 	

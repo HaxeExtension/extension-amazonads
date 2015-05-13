@@ -87,7 +87,7 @@ class AmazonAds extends EventDispatcher
 			_showAdFunc(size, halign, valign);
 		}
 		else
-			onStatus(AdmobEvent.AD_SHOW_FAIL, "Amazon Ads not initialized!");
+			onStatus(AmazonAdsEvent.AD_SHOW_FAIL, "Amazon Ads not initialized!");
 	}
 	
 	public function hideAd():Void
@@ -111,7 +111,7 @@ class AmazonAds extends EventDispatcher
 			_cacheInterstitialFunc();
 		}
 		else
-			onStatus(AdmobEvent.INTERSTITIAL_CACHE_FAIL, "Amazon Ads not initialized!");
+			onStatus(AmazonAdsEvent.INTERSTITIAL_CACHE_FAIL, "Amazon Ads not initialized!");
 	}
 
 	/**
