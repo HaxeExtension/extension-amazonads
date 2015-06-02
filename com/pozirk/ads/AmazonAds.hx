@@ -63,12 +63,18 @@ class AmazonAds extends EventDispatcher
 	private var _enableTestingFunc:Dynamic;
 	private var _enableLoggingFunc:Dynamic;
 	
-	public function init(appID:String)
+	public function init(appID:String, maxHeight:Int = 0)
 	{
 		if(_initFunc == null)
 			_initFunc = openfl.utils.JNI.createStaticMethod(EXT_AMAZONADS, "init", "(Ljava/lang/String;Lorg/haxe/lime/HaxeObject;)V");
 			
 		_initFunc(appID, this);
+
+		if(maxHeight>0) {
+			trace("maxHeight: "+maxHeight);
+			var setMaxHeight:Int->Void = openfl.utils.JNI.createStaticMethod(EXT_AMAZONADS, "setMaxHeight", "(I)V");
+			setMaxHeight(maxHeight);
+		}
 	}
 
 	/**

@@ -33,12 +33,13 @@ import com.amazon.device.ads.*;
 public class AmazonAds extends Extension
 {
 	protected static AdLayout _adView = null;
-  protected static InterstitialAd _interstitial;
-  protected static AdSize _adSize = AdSize.SIZE_AUTO;
-  protected static RelativeLayout _parentView;
+	protected static InterstitialAd _interstitial;
+	protected static AdSize _adSize = AdSize.SIZE_AUTO;
+	protected static RelativeLayout _parentView;
 	protected static HaxeObject _callback = null;
 	protected static AmazonAdsListener _listenerAd = null;
 	protected static AmazonAdsListener _listenerInter = null;
+	protected static int maxHeight = 0;
 	
 	public static void init(String appID, HaxeObject callback)
 	{
@@ -59,6 +60,11 @@ public class AmazonAds extends Extension
 		});
 		
 		//Log.d("amazonads", "init: "+callback+" / "+_parentView);
+	}
+
+	public static void setMaxHeight(int height)
+	{
+		maxHeight = height;
 	}
 	
 	public static void showAd(final int size, final int halign, final int valign)
@@ -96,7 +102,7 @@ public class AmazonAds extends Extension
 					break;
 				default:
 					_adSize = AdSize.SIZE_AUTO;
-					params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+					params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, maxHeight>0?maxHeight:RelativeLayout.LayoutParams.WRAP_CONTENT);
 				}
 				
 				_adView = new AdLayout(Extension.mainActivity, _adSize);
