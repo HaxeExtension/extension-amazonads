@@ -19,18 +19,18 @@ Installation
 =======
 You can easily install AmazonAds extension using haxelib:
 
-	haxelib install amazonads-openfl
+	haxelib install extension-amazonads
 
 To add it to a OpenFL project, add this to your project file:
 
-	<haxelib name="amazonads-openfl" />
+	<haxelib name="extension-amazonads" />
 
 
 Usage
 =======
 ```haxe
-import com.pozirk.ads.AmazonAds;
-import com.pozirk.ads.AmazonAdsEvent;
+import extension.amazonads.AmazonAds;
+import extension.amazonads.AmazonAdsEvent;
 
 ...
 

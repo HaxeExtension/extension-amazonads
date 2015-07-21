@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package com.pozirk.ads;
+package extension.amazonads;
 
 import openfl.events.EventDispatcher;
 #if android
