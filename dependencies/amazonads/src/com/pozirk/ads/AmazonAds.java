@@ -55,7 +55,7 @@ public class AmazonAds extends Extension
 			{
 				Extension.mainActivity.addContentView(_parentView, new ViewGroup.LayoutParams(-1, -1));
 				//Log.d("amazonads", "main activity: "+Extension.mainActivity);
-				_callback.call("onStatus", new Object[] {"INIT_OK", ""});
+				_callback.call("onStatus", new Object[] {"INIT_OK", "", ""});
 			}
 		});
 		
@@ -157,8 +157,9 @@ public class AmazonAds extends Extension
 		});
   }
   
-  public static void showInterstitial()
+  public static boolean showInterstitial()
   {
+		if(_interstitial == null) return false;
 		Extension.mainActivity.runOnUiThread(new Runnable()
 		{
 			public void run()
@@ -167,6 +168,7 @@ public class AmazonAds extends Extension
 					_interstitial.showAd();
 			}
 		});
+		return true;
   }
   
   public static void enableTesting(boolean enable)

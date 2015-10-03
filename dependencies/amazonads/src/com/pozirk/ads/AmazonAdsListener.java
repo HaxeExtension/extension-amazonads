@@ -40,27 +40,27 @@ public class AmazonAdsListener implements AdListener
    public void onAdLoaded(Ad ad, AdProperties adProperties)
 	 {
 		//Log.d("amazonads", "onAdLoaded");
-		_callback.call("onStatus", new Object[] {"AD_LOADED", "type: "+_who});
+		_callback.call("onStatus", new Object[] {"AD_LOADED", _who, "type: "+_who});
    }
 
    public void onAdFailedToLoad(Ad ad, AdError error)
    {
 		//Log.d("amazonads", "onAdFailedToLoad: "+error.getMessage());
-		_callback.call("onStatus", new Object[] {"AD_FAILED_TO_LOAD", "type: "+_who+", "+error.getCode()+": "+error.getMessage()});
+		_callback.call("onStatus", new Object[] {"AD_FAILED_TO_LOAD", _who, "type: "+_who+", "+error.getCode()+": "+error.getMessage()});
    }
 
    public void onAdExpanded(Ad ad)
   {
-    _callback.call("onStatus", new Object[] {"AD_EXPANDED", "type: "+_who});
+    _callback.call("onStatus", new Object[] {"AD_EXPANDED", _who, "type: "+_who});
   }
 
   public void onAdCollapsed(Ad ad)
   {
-  	_callback.call("onStatus", new Object[] {"AD_COLLAPSED", "type: "+_who});
+  	_callback.call("onStatus", new Object[] {"AD_COLLAPSED", _who, "type: "+_who});
   }
   
   public void onAdDismissed(Ad ad)
   {
-  	_callback.call("onStatus", new Object[] {"AD_DISMISSED", "type: "+_who});
+  	_callback.call("onStatus", new Object[] {"AD_DISMISSED", _who, "type: "+_who});
   }
 }

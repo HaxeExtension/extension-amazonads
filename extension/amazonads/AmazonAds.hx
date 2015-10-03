@@ -53,16 +53,23 @@ class AmazonAds extends EventDispatcher
 	
 	private static inline var EXT_AMAZONADS:String = "com.pozirk.ads.AmazonAds";
 	
+	private static inline var INTERSTITIAL_NOT_REQUESTED = 0;
+	private static inline var INTERSTITIAL_LOADING = 1;
+	private static inline var INTERSTITIAL_FAILED_TO_LOAD = 2;
+	private static inline var INTERSTITIAL_LOADED = 3;
+
 #if android
-	public var _inited(default, null):Int = 0;
-	private var _initFunc:Dynamic;
-	private var _showAdFunc:Dynamic;
-	private var _hideAdFunc:Dynamic;
-	private var _cacheInterstitialFunc:Dynamic;
-	private var _showInterstitialFunc:Dynamic;
-	private var _enableTestingFunc:Dynamic;
-	private var _enableLoggingFunc:Dynamic;
-	
+	public var _initialized(default, null):Int = 0;
+	private var _interstitialStatus:Int = INTERSTITIAL_NOT_REQUESTED;
+
+	private var _initFunc:String->AmazonAds->Void;
+	private var _showAdFunc:Int->Int->Int->Void;
+	private var _hideAdFunc:Void->Void;
+	private var _cacheInterstitialFunc:Void->Void;
+	private var _showInterstitialFunc:Void->Bool;
+	private var _enableTestingFunc:Bool->Void;
+	private var _enableLoggingFunc:Bool->Void;
+
 	public function init(appID:String, maxHeight:Int = 0)
 	{
 		if(_initFunc == null)
@@ -85,7 +92,7 @@ class AmazonAds extends EventDispatcher
 	 */
 	public function showAd(size:Int, halign:Int, valign:Int):Void
 	{
-		if(_inited == 1)
+		if(_initialized == 1)
 		{
 			if(_showAdFunc == null)
 				_showAdFunc = openfl.utils.JNI.createStaticMethod(EXT_AMAZONADS, "showAd", "(III)V");
@@ -93,7 +100,7 @@ class AmazonAds extends EventDispatcher
 			_showAdFunc(size, halign, valign);
 		}
 		else
-			onStatus(AmazonAdsEvent.AD_SHOW_FAIL, "Amazon Ads not initialized!");
+			onStatus(AmazonAdsEvent.AD_SHOW_FAIL, "AD", "Amazon Ads not initialized!");
 	}
 	
 	public function hideAd():Void
@@ -109,26 +116,30 @@ class AmazonAds extends EventDispatcher
 	 */
 	public function cacheInterstitial():Void
 	{
-		if(_inited == 1)
+		if(_initialized == 1)
 		{
 			if(_cacheInterstitialFunc == null)
 				_cacheInterstitialFunc = openfl.utils.JNI.createStaticMethod(EXT_AMAZONADS, "cacheInterstitial", "()V");
 			
 			_cacheInterstitialFunc();
+			_interstitialStatus = INTERSTITIAL_LOADING;
+		} else {
+			onStatus(AmazonAdsEvent.INTERSTITIAL_CACHE_FAIL, "INTERSTITIAL", "Amazon Ads not initialized!");
+			_interstitialStatus = INTERSTITIAL_NOT_REQUESTED;
 		}
-		else
-			onStatus(AmazonAdsEvent.INTERSTITIAL_CACHE_FAIL, "Amazon Ads not initialized!");
 	}
 
 	/**
 	 * Show interstitial ad, if it is not cached yet, nothing will be shown
 	 */
-	public function showInterstitial():Void
+	public function showInterstitial():Bool
 	{
-		if(_showInterstitialFunc == null)
-			_showInterstitialFunc = openfl.utils.JNI.createStaticMethod(EXT_AMAZONADS, "showInterstitial", "()V");
-			
-		_showInterstitialFunc();
+		if(_interstitialStatus != INTERSTITIAL_LOADED) return false;
+		if(_showInterstitialFunc == null) {
+			_showInterstitialFunc = openfl.utils.JNI.createStaticMethod(EXT_AMAZONADS, "showInterstitial", "()Z");
+		}
+		_interstitialStatus = INTERSTITIAL_NOT_REQUESTED;
+		return _showInterstitialFunc();
 	}
 	
 	public function enableTesting(enable:Bool):Void
@@ -147,18 +158,19 @@ class AmazonAds extends EventDispatcher
 		_enableLoggingFunc(enable);
 	}
 
-	public function onStatus(code:String, reason:String):Void
+	public function onStatus(code:String, who:String, reason:String):Void
 	{
 		//trace("onStatus: "+code+": "+reason);
 		var aae:AmazonAdsEvent = null;
 		switch(code)
 		{
 			case "INIT_OK":
-				_inited = 1;
+				_initialized = 1;
 				aae = new AmazonAdsEvent(AmazonAdsEvent.INIT_OK, "");
 			
 			case "AD_LOADED":
 				aae = new AmazonAdsEvent(AmazonAdsEvent.AD_LOADED, reason);
+				if(who=="INTERSTITIAL") _interstitialStatus = INTERSTITIAL_LOADED;
 			
 			case "AD_EXPANDED":
 				aae = new AmazonAdsEvent(AmazonAdsEvent.AD_EXPANDED, reason);
@@ -168,6 +180,7 @@ class AmazonAds extends EventDispatcher
 			
 			case "AD_FAILED_TO_LOAD":
 				aae = new AmazonAdsEvent(AmazonAdsEvent.AD_FAILED_TO_LOAD, reason);
+				if(who=="INTERSTITIAL") _interstitialStatus = INTERSTITIAL_FAILED_TO_LOAD;
 			
 			case "AD_DISMISSED":
 				aae = new AmazonAdsEvent(AmazonAdsEvent.AD_DISMISSED, reason);
