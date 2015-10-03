@@ -4,8 +4,7 @@
 	"license": "MIT",
 	"tags": ["openfl", "amazon", "ads"],
 	"description": "AmazonAds extension for OpenFL",
-	"version": "0.0.2",
-	"releasenote": "Extension rename",
-	"contributors": ["pozirk","singmajesty","fbricker"],
-	"dependencies": {"openfl": ""}
+	"version": "0.1.0",
+	"releasenote": "Add return value to 'showInterstitial' method (to allow local mediation combining other ad-extensions).",
+	"contributors": ["pozirk","singmajesty","fbricker"]
 }
