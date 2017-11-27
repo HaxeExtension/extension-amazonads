@@ -24,7 +24,7 @@ package extension.amazonads;
 
 import openfl.events.EventDispatcher;
 #if android
-import openfl.utils.JNI;
+import lime.system.JNI;
 #end
 
 /**
@@ -73,13 +73,13 @@ class AmazonAds extends EventDispatcher
 	public function init(appID:String, maxHeight:Int = 0)
 	{
 		if(_initFunc == null)
-			_initFunc = openfl.utils.JNI.createStaticMethod(EXT_AMAZONADS, "init", "(Ljava/lang/String;Lorg/haxe/lime/HaxeObject;)V");
+			_initFunc = JNI.createStaticMethod(EXT_AMAZONADS, "init", "(Ljava/lang/String;Lorg/haxe/lime/HaxeObject;)V");
 			
 		_initFunc(appID, this);
 
 		if(maxHeight>0) {
 			trace("maxHeight: "+maxHeight);
-			var setMaxHeight:Int->Void = openfl.utils.JNI.createStaticMethod(EXT_AMAZONADS, "setMaxHeight", "(I)V");
+			var setMaxHeight:Int->Void = JNI.createStaticMethod(EXT_AMAZONADS, "setMaxHeight", "(I)V");
 			setMaxHeight(maxHeight);
 		}
 	}
@@ -95,7 +95,7 @@ class AmazonAds extends EventDispatcher
 		if(_initialized == 1)
 		{
 			if(_showAdFunc == null)
-				_showAdFunc = openfl.utils.JNI.createStaticMethod(EXT_AMAZONADS, "showAd", "(III)V");
+				_showAdFunc = JNI.createStaticMethod(EXT_AMAZONADS, "showAd", "(III)V");
 			
 			_showAdFunc(size, halign, valign);
 		}
@@ -106,7 +106,7 @@ class AmazonAds extends EventDispatcher
 	public function hideAd():Void
 	{
 		if(_hideAdFunc == null)
-			_hideAdFunc = openfl.utils.JNI.createStaticMethod(EXT_AMAZONADS, "hideAd", "()V");
+			_hideAdFunc = JNI.createStaticMethod(EXT_AMAZONADS, "hideAd", "()V");
 			
 		_hideAdFunc();
 	}
@@ -119,7 +119,7 @@ class AmazonAds extends EventDispatcher
 		if(_initialized == 1)
 		{
 			if(_cacheInterstitialFunc == null)
-				_cacheInterstitialFunc = openfl.utils.JNI.createStaticMethod(EXT_AMAZONADS, "cacheInterstitial", "()V");
+				_cacheInterstitialFunc = JNI.createStaticMethod(EXT_AMAZONADS, "cacheInterstitial", "()V");
 			
 			_cacheInterstitialFunc();
 			_interstitialStatus = INTERSTITIAL_LOADING;
@@ -136,7 +136,7 @@ class AmazonAds extends EventDispatcher
 	{
 		if(_interstitialStatus != INTERSTITIAL_LOADED) return false;
 		if(_showInterstitialFunc == null) {
-			_showInterstitialFunc = openfl.utils.JNI.createStaticMethod(EXT_AMAZONADS, "showInterstitial", "()Z");
+			_showInterstitialFunc = JNI.createStaticMethod(EXT_AMAZONADS, "showInterstitial", "()Z");
 		}
 		_interstitialStatus = INTERSTITIAL_NOT_REQUESTED;
 		return _showInterstitialFunc();
@@ -145,7 +145,7 @@ class AmazonAds extends EventDispatcher
 	public function enableTesting(enable:Bool):Void
 	{
 		if(_enableTestingFunc == null)
-			_enableTestingFunc = openfl.utils.JNI.createStaticMethod(EXT_AMAZONADS, "enableTesting", "(Z)V");
+			_enableTestingFunc = JNI.createStaticMethod(EXT_AMAZONADS, "enableTesting", "(Z)V");
 			
 		_enableTestingFunc(enable);
 	}
@@ -153,7 +153,7 @@ class AmazonAds extends EventDispatcher
 	public function enableLogging(enable:Bool):Void
 	{
 		if(_enableLoggingFunc == null)
-			_enableLoggingFunc = openfl.utils.JNI.createStaticMethod(EXT_AMAZONADS, "enableLogging", "(Z)V");
+			_enableLoggingFunc = JNI.createStaticMethod(EXT_AMAZONADS, "enableLogging", "(Z)V");
 			
 		_enableLoggingFunc(enable);
 	}
