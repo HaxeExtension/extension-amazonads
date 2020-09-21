@@ -1,6 +1,6 @@
 Introduction
 ============
-AmazonAds OpenFL Extension. (Adnroid only)
+AmazonAds OpenFL Extension. (Android only)
 
 More info on Amazon Ads: https://developer.amazon.com/appsandservices/apis
 
