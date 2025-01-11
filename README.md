@@ -56,10 +56,3 @@ private function onAmazonAdsCache(aae:AmazonAdsEvent):Void
 	_amazonAds.showInterstitial();
 }
 ```
-
-
-Game with Amazon Ads extension
-=======
-Match Jong: http://www.amazon.com/Pozirk-Games-Match-Jong/dp/B00U6EKC9E/
-
-Play level 2 in order to see interstitial ad.
